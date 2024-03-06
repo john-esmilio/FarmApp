@@ -105,7 +105,7 @@ const ViewHerd = ({ navigation, route }) => {
         <View style={{ width: "97%", alignSelf: "center", top: 15 }}>
           <Image
             source={(uri = data.imageUrl)}
-            resizeMode="contain"
+            resizeMode="stretch"
             style={{ width: "100%", height: 250, borderRadius: 10 }}
           />
         </View>

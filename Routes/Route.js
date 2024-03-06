@@ -17,6 +17,8 @@ import UpdateHerd from "../screen/UpdateHerd";
 import UpdatePaddock from "../screen/UpdatePaddock";
 import SignUp from "../screen/SignUp";
 import Settings from "../screen/Settings";
+import ChangeUsername from "../screen/ChangeUsername";
+import ChangePassword from "../screen/ChangePassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -185,6 +187,20 @@ const Route = () => {
         <Stack.Screen
           name="Settings"
           component={Settings}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ChangeUsername"
+          component={ChangeUsername}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
           options={{
             headerShown: false,
           }}

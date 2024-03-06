@@ -6,6 +6,8 @@ import {
   TextInput,
   View,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MaterialIcons } from "react-native-vector-icons";
@@ -36,10 +38,10 @@ const AddHerd = ({ navigation, route }) => {
   const [headSize, setHeadSize] = useState(""); // aka herd size
   const [herdStatus, setHerdStatus] = useState("");
 
-  const [dateEntered, setDateEntered] = useState(new Date());
+  const [dateEntered, setDateEntered] = useState(new Date() || "");
   const [openDateEntered, setOpenDateEntered] = useState(false);
 
-  const [exitDate, setExitDate] = useState(new Date());
+  const [exitDate, setExitDate] = useState(new Date() || "");
   const [openExitDate, setOpenExitDate] = useState(false);
 
   const [auValue, setAuValue] = useState("");
@@ -171,7 +173,6 @@ const AddHerd = ({ navigation, route }) => {
         }));
         console.log("Saving new herd data:", newHerdData);
 
-        // Check if a herd with the same name already exists
         // if (
         //   herds.some((herd) => herd.paddockNumber === newHerdData.paddockNumber)
         // ) {
@@ -208,134 +209,139 @@ const AddHerd = ({ navigation, route }) => {
     setRandomImage(images[randomIndex]);
   }, []);
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity style={styles.backButton} onPress={goBack}>
-            <MaterialIcons name="arrow-back" size={35} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Create Herd</Text>
-        </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.backButton} onPress={goBack}>
+              <MaterialIcons name="arrow-back" size={35} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>Create Herd</Text>
+          </View>
 
-        <View
-          style={{ width: "97%", height: 280, alignSelf: "center", top: 15 }}
-        >
-          {randomImage && (
-            <Image
-              source={randomImage}
-              resizeMode="fit"
-              style={{ width: "100%", height: 250, borderRadius: 10 }}
-            />
-          )}
-        </View>
-
-        <View
-          style={{
-            width: "97%",
-            alignSelf: "center",
-            top: 8,
-          }}
-        >
-          <TextInput
-            placeholder="Enter Herd Name"
-            value={herdName}
-            onChangeText={(text) => setHerdName(text)}
-            onBlur={validateHerdName}
-            style={{
-              height: 50,
-              fontFamily: "JosefinSans-Medium",
-              fontSize: 17,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              paddingLeft: 10,
-              backgroundColor: "#ffff",
-              marginBottom: 10,
-            }}
-          />
-          {herdNameError !== "" && (
-            <Text style={styles.errorText}>{herdNameError}</Text>
-          )}
-        </View>
-        <View
-          style={{
-            width: "97%",
-            alignSelf: "center",
-            top: 8,
-          }}
-        >
-          <TextInput
-            placeholder="Enter Land Owner"
-            value={landOwner}
-            onChangeText={(text) => setLandOwner(text)}
-            onBlur={validateLandOwner}
-            style={{
-              height: 50,
-              fontFamily: "JosefinSans-Medium",
-              fontSize: 17,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              paddingLeft: 10,
-              backgroundColor: "#ffff",
-              marginBottom: 10,
-            }}
-          />
-          {landOwnerError !== "" && (
-            <Text style={styles.errorText}>{landOwnerError}</Text>
-          )}
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            alignSelf: "center",
-            marginTop: 10,
-            marginBottom: 10,
-            paddingHorizontal: 5,
-          }}
-        >
           <View
-            style={{
-              width: "49%",
-              height: 50,
-              borderRadius: 10,
-              borderWidth: 0.6,
-              backgroundColor: "#ffff",
-              marginRight: 4,
-            }}
+            style={{ width: "97%", height: 280, alignSelf: "center", top: 15 }}
           >
-            <TextInput
-              placeholder="Paddock Number"
-              value={paddockNumber}
-              onChangeText={(text) => setPaddockNumber(text)}
-              onBlur={validatePaddockNumber}
-              style={{
-                width: "100%",
-                height: 50,
-                fontFamily: "JosefinSans-Medium",
-                fontSize: 17,
-                borderRadius: 10,
-                paddingLeft: 10,
-              }}
-            />
-            {paddockNumberError !== "" && (
-              <Text style={styles.errorText}>{paddockNumberError}</Text>
+            {randomImage && (
+              <Image
+                source={randomImage}
+                resizeMode="stretch"
+                style={{ width: "100%", height: 250, borderRadius: 10 }}
+              />
             )}
           </View>
 
           <View
             style={{
-              width: "49%",
-              height: 50,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              backgroundColor: "#ffff",
-              marginLeft: 4,
-              fontFamily: "JosefinSans-Medium",
+              width: "97%",
+              alignSelf: "center",
+              top: 8,
             }}
           >
-            <Picker
+            <TextInput
+              placeholder="Enter Herd Name"
+              value={herdName}
+              onChangeText={(text) => setHerdName(text)}
+              onBlur={validateHerdName}
+              style={{
+                height: 50,
+                fontFamily: "JosefinSans-Medium",
+                fontSize: 17,
+                borderWidth: 0.6,
+                borderRadius: 10,
+                paddingLeft: 10,
+                backgroundColor: "#ffff",
+                marginBottom: 10,
+              }}
+            />
+            {herdNameError !== "" && (
+              <Text style={styles.errorText}>{herdNameError}</Text>
+            )}
+          </View>
+          <View
+            style={{
+              width: "97%",
+              alignSelf: "center",
+              top: 8,
+            }}
+          >
+            <TextInput
+              placeholder="Enter Land Owner"
+              value={landOwner}
+              onChangeText={(text) => setLandOwner(text)}
+              onBlur={validateLandOwner}
+              style={{
+                height: 50,
+                fontFamily: "JosefinSans-Medium",
+                fontSize: 17,
+                borderWidth: 0.6,
+                borderRadius: 10,
+                paddingLeft: 10,
+                backgroundColor: "#ffff",
+                marginBottom: 10,
+              }}
+            />
+            {landOwnerError !== "" && (
+              <Text style={styles.errorText}>{landOwnerError}</Text>
+            )}
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              alignSelf: "center",
+              marginTop: 10,
+              marginBottom: 10,
+              paddingHorizontal: 5,
+            }}
+          >
+            <View
+              style={{
+                width: "49%",
+                height: 50,
+                borderRadius: 10,
+                borderWidth: 0.6,
+                backgroundColor: "#ffff",
+                marginRight: 4,
+              }}
+            >
+              <TextInput
+                placeholder="Paddock #"
+                value={paddockNumber}
+                onChangeText={(text) => setPaddockNumber(text)}
+                onBlur={validatePaddockNumber}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  fontFamily: "JosefinSans-Medium",
+                  fontSize: 17,
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                }}
+              />
+              {paddockNumberError !== "" && (
+                <Text style={styles.errorText}>{paddockNumberError}</Text>
+              )}
+            </View>
+
+            <View
+              style={{
+                width: "49%",
+                height: 50,
+                borderWidth: 0.6,
+                borderRadius: 10,
+                backgroundColor: "#ffff",
+                marginLeft: 4,
+                fontFamily: "JosefinSans-Medium",
+              }}
+            >
+              {/* <Picker
               selectedValue={cattleClass}
               onValueChange={(itemValue, itemIndex) => {
                 if (itemValue === "placeholder") {
@@ -360,28 +366,105 @@ const AddHerd = ({ navigation, route }) => {
             </Picker>
             {cattleClassError !== "" && (
               <Text style={styles.pickerErrorText}>{cattleClassError}</Text>
-            )}
+            )} */}
+              <View>
+                <TextInput
+                  placeholder="Cattle Class"
+                  value={cattleClass}
+                  onChangeText={(text) => setCattleClass(text)}
+                  onBlur={validateCattleClass}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                {cattleClassError !== "" && (
+                  <Text style={styles.errorText}>{cattleClassError}</Text>
+                )}
+              </View>
+            </View>
           </View>
-        </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 10,
-            marginTop: 10,
-            width: "100%",
-            alignSelf: "center",
-            paddingHorizontal: 5,
-          }}
-        >
-          <View style={{ width: "49%" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10,
+              marginTop: 10,
+              width: "100%",
+              alignSelf: "center",
+              paddingHorizontal: 5,
+            }}
+          >
+            <View style={{ width: "49%" }}>
+              <TextInput
+                placeholder="Head Size"
+                value={headSize}
+                onChangeText={(text) => setHeadSize(text)}
+                onBlur={validateHeadSize}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  fontFamily: "JosefinSans-Medium",
+                  fontSize: 17,
+                  borderWidth: 0.6,
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  marginRight: 4,
+                  backgroundColor: "#ffff",
+                }}
+              />
+              {headSizeError !== "" && (
+                <Text style={styles.errorText}>{headSizeError}</Text>
+              )}
+            </View>
+
+            <View style={{ width: "48%" }}>
+              <TextInput
+                placeholder="AU Value"
+                value={auValue}
+                onChangeText={(text) => setAuValue(text)}
+                onBlur={validateAuValue}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  fontFamily: "JosefinSans-Medium",
+                  fontSize: 17,
+                  borderWidth: 0.6,
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  backgroundColor: "#ffff",
+                }}
+              />
+              {auValueError !== "" && (
+                <Text style={styles.errorText}>{auValueError}</Text>
+              )}
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: 10,
+              width: "100%",
+              alignSelf: "center",
+              marginTop: 10,
+              paddingHorizontal: 5,
+            }}
+          >
             <TextInput
-              placeholder="Head Size"
-              value={headSize}
-              onChangeText={(text) => setHeadSize(text)}
-              onBlur={validateHeadSize}
+              placeholder="Status"
+              value={herdStatus}
+              onChangeText={(text) => setHerdStatus(text)}
+              onBlur={validateHerdStatus}
               style={{
                 width: "100%",
                 height: 50,
@@ -390,249 +473,196 @@ const AddHerd = ({ navigation, route }) => {
                 borderWidth: 0.6,
                 borderRadius: 10,
                 paddingLeft: 10,
+                backgroundColor: "#ffff",
+              }}
+            />
+          </View>
+          <View
+            style={{
+              alignItems: "center",
+              marginTop: 10,
+              width: "100%",
+              alignSelf: "center",
+              paddingHorizontal: 5,
+            }}
+          >
+            <Textarea
+              placeholder="Comments"
+              value={comments}
+              onChangeText={(text) => setComments(text)}
+              onBlur={validateComments}
+              style={{
+                width: "100%",
+                height: 150,
+                fontFamily: "JosefinSans-Medium",
+                fontSize: 17,
+                borderWidth: 0.6,
+                borderRadius: 10,
+                paddingLeft: 10,
+                backgroundColor: "#ffff",
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+              alignSelf: "center",
+              paddingHorizontal: 5,
+            }}
+          >
+            <View
+              style={{
+                width: "49%",
+                height: 85,
+                borderRadius: 10,
+                backgroundColor: "#ffff",
                 marginRight: 4,
-                backgroundColor: "#ffff",
-              }}
-            />
-            {headSizeError !== "" && (
-              <Text style={styles.errorText}>{headSizeError}</Text>
-            )}
-          </View>
-
-          <View style={{ width: "48%" }}>
-            <TextInput
-              placeholder="AU Value"
-              value={auValue}
-              onChangeText={(text) => setAuValue(text)}
-              onBlur={validateAuValue}
-              style={{
-                width: "100%",
-                height: 50,
-                fontFamily: "JosefinSans-Medium",
-                fontSize: 17,
                 borderWidth: 0.6,
-                borderRadius: 10,
-                paddingLeft: 10,
-                backgroundColor: "#ffff",
-              }}
-            />
-            {auValueError !== "" && (
-              <Text style={styles.errorText}>{auValueError}</Text>
-            )}
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: 10,
-            width: "100%",
-            alignSelf: "center",
-            marginTop: 10,
-            paddingHorizontal: 5,
-          }}
-        >
-          <TextInput
-            placeholder="Status"
-            value={herdStatus}
-            onChangeText={(text) => setHerdStatus(text)}
-            onBlur={validateHerdStatus}
-            style={{
-              width: "100%",
-              height: 50,
-              fontFamily: "JosefinSans-Medium",
-              fontSize: 17,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              paddingLeft: 10,
-              backgroundColor: "#ffff",
-            }}
-          />
-        </View>
-        <View
-          style={{
-            alignItems: "center",
-            marginTop: 10,
-            width: "100%",
-            alignSelf: "center",
-            paddingHorizontal: 5,
-          }}
-        >
-          <Textarea
-            placeholder="Comments"
-            value={comments}
-            onChangeText={(text) => setComments(text)}
-            onBlur={validateComments}
-            style={{
-              width: "100%",
-              height: 150,
-              fontFamily: "JosefinSans-Medium",
-              fontSize: 17,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              paddingLeft: 10,
-              backgroundColor: "#ffff",
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-            alignSelf: "center",
-            paddingHorizontal: 5,
-          }}
-        >
-          <View
-            style={{
-              width: "49%",
-              height: 85,
-              borderRadius: 10,
-              backgroundColor: "#ffff",
-              marginRight: 4,
-              borderWidth: 0.6,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity onPress={() => setOpenDateEntered(true)}>
-              <Text>Date Entered</Text>
-              <Text
-                style={{
-                  width: "100%",
-                  color: "#000000",
-                  fontSize: 17,
-                  fontFamily: "JosefinSans-Medium",
-                }}
-              >
-                {dateEntered ? dateEntered.toDateString() : "Select Enter Date"}
-              </Text>
-              {dateEntered && (
-                <Text
-                  style={{
-                    width: "100%",
-                    color: "#000000",
-                    fontSize: 15,
-                    fontFamily: "JosefinSans-Medium",
-                  }}
-                >
-                  Time:
-                  {` ${dateEntered.getHours()}:${
-                    dateEntered.getMinutes() < 10 ? "0" : ""
-                  }${dateEntered.getMinutes()}`}
-                </Text>
-              )}
-            </TouchableOpacity>
-
-            {openDateEntered && (
-              <DatePicker
-                modal
-                open={openDateEntered}
-                date={dateEntered}
-                onConfirm={(dateEntered) => {
-                  setOpenDateEntered(false);
-                  setDateEntered(dateEntered);
-                }}
-                onCancel={() => {
-                  setOpenDateEntered(false);
-                }}
-              />
-            )}
-
-            {dateEnteredError !== "" && (
-              <Text style={styles.errorText}>{dateEnteredError}</Text>
-            )}
-          </View>
-          <View
-            style={{
-              width: "49%",
-              height: 85,
-              borderRadius: 10,
-              backgroundColor: "#ffff",
-              marginRight: 4,
-              borderWidth: 0.6,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity onPress={() => setOpenExitDate(true)}>
-              <Text>Exit Date</Text>
-              <Text
-                style={{
-                  width: "100%",
-                  color: "#000000",
-                  fontSize: 17,
-                  fontFamily: "JosefinSans-Medium",
-                }}
-              >
-                {exitDate ? exitDate.toDateString() : "Select Exit Date"}
-              </Text>
-              {exitDate && (
-                <Text
-                  style={{
-                    width: "100%",
-                    color: "#000000",
-                    fontSize: 15,
-                    fontFamily: "JosefinSans-Medium",
-                  }}
-                >
-                  Time:
-                  {` ${exitDate.getHours()}:${
-                    exitDate.getMinutes() < 10 ? "0" : ""
-                  }${exitDate.getMinutes()}`}
-                </Text>
-              )}
-            </TouchableOpacity>
-
-            {openExitDate && (
-              <DatePicker
-                modal
-                open={openExitDate}
-                date={exitDate}
-                onConfirm={(exitDate) => {
-                  setOpenExitDate(false);
-                  setExitDate(exitDate);
-                }}
-                onCancel={() => {
-                  setOpenExitDate(false);
-                }}
-              />
-            )}
-
-            {exitDateError !== "" && (
-              <Text style={styles.errorText}>{exitDateError}</Text>
-            )}
-          </View>
-        </View>
-        <View style={{ width: "100%", paddingHorizontal: 5 }}>
-          <TouchableOpacity
-            style={{
-              height: 50,
-              backgroundColor: "#007000",
-              borderRadius: 10,
-              marginTop: 20,
-              marginBottom: 50,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={handleSave}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                fontFamily: "JosefinSans-Bold",
-                color: "#ffffff",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              Create Herd
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+              <TouchableOpacity onPress={() => setOpenDateEntered(true)}>
+                <Text>Date Entered</Text>
+                <Text
+                  style={{
+                    width: "100%",
+                    color: "#000000",
+                    fontSize: 17,
+                    fontFamily: "JosefinSans-Medium",
+                  }}
+                >
+                  {dateEntered
+                    ? dateEntered.toDateString()
+                    : "Select Enter Date"}
+                </Text>
+                {dateEntered && (
+                  <Text
+                    style={{
+                      width: "100%",
+                      color: "#000000",
+                      fontSize: 15,
+                      fontFamily: "JosefinSans-Medium",
+                    }}
+                  >
+                    Time:
+                    {` ${dateEntered.getHours()}:${
+                      dateEntered.getMinutes() < 10 ? "0" : ""
+                    }${dateEntered.getMinutes()}`}
+                  </Text>
+                )}
+              </TouchableOpacity>
+
+              {openDateEntered && (
+                <DatePicker
+                  modal
+                  open={openDateEntered}
+                  date={dateEntered}
+                  onConfirm={(dateEntered) => {
+                    setOpenDateEntered(false);
+                    setDateEntered(dateEntered);
+                  }}
+                  onCancel={() => {
+                    setOpenDateEntered(false);
+                  }}
+                />
+              )}
+
+              {dateEnteredError !== "" && (
+                <Text style={styles.errorText}>{dateEnteredError}</Text>
+              )}
+            </View>
+            <View
+              style={{
+                width: "49%",
+                height: 85,
+                borderRadius: 10,
+                backgroundColor: "#ffff",
+                marginRight: 4,
+                borderWidth: 0.6,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TouchableOpacity onPress={() => setOpenExitDate(true)}>
+                <Text>Exit Date</Text>
+                <Text
+                  style={{
+                    width: "100%",
+                    color: "#000000",
+                    fontSize: 17,
+                    fontFamily: "JosefinSans-Medium",
+                  }}
+                >
+                  {exitDate ? exitDate.toDateString() : "Select Exit Date"}
+                </Text>
+                {exitDate && (
+                  <Text
+                    style={{
+                      width: "100%",
+                      color: "#000000",
+                      fontSize: 15,
+                      fontFamily: "JosefinSans-Medium",
+                    }}
+                  >
+                    Time:
+                    {` ${exitDate.getHours()}:${
+                      exitDate.getMinutes() < 10 ? "0" : ""
+                    }${exitDate.getMinutes()}`}
+                  </Text>
+                )}
+              </TouchableOpacity>
+
+              {openExitDate && (
+                <DatePicker
+                  modal
+                  open={openExitDate}
+                  date={exitDate}
+                  onConfirm={(exitDate) => {
+                    setOpenExitDate(false);
+                    setExitDate(exitDate);
+                  }}
+                  onCancel={() => {
+                    setOpenExitDate(false);
+                  }}
+                />
+              )}
+
+              {exitDateError !== "" && (
+                <Text style={styles.errorText}>{exitDateError}</Text>
+              )}
+            </View>
+          </View>
+          <View style={{ width: "100%", paddingHorizontal: 5 }}>
+            <TouchableOpacity
+              style={{
+                height: 50,
+                backgroundColor: "#007000",
+                borderRadius: 10,
+                marginTop: 20,
+                marginBottom: 50,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={handleSave}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: "JosefinSans-Bold",
+                  color: "#ffffff",
+                }}
+              >
+                Create Herd
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

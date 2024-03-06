@@ -1,50 +1,45 @@
 import React, { useState } from "react";
 import {
   View,
-  TextInput,
-  Button,
-  Alert,
   ScrollView,
   StyleSheet,
   Image,
   Text,
   TouchableOpacity,
+  Alert,
+  Dimensions,
 } from "react-native";
 import { Form, TextValidator } from "react-native-validator-form";
+import { MaterialIcons } from "react-native-vector-icons";
+
+const { width, height } = Dimensions.get("window");
 
 const ForgotPassword = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+  const goBack = () => {
+    navigation.goBack();
+  };
 
+  const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
   const handleResetPassword = () => {
     setEmailError("");
 
-    // Validate email
     if (!email || !email.trim()) {
       setEmailError("Email cannot be empty");
       return;
     }
-    // const Authentification = require("../Authentification");
-    // handlePasswordReset = async (values, actions) => {
-    //   const { email } = values
 
-    //   try {
-    //     await this.props.firebase.passwordReset(email)
-    //     console.log('Password reset email sent successfully')
-    //     this.props.navigation.navigate('Login')
-    //   } catch (error) {
-    //     actions.setFieldError('general', error.message)
-    //   }
-    // }
-    //TODO: Edit this authentication with MySQL, then move Alert.alert to the try block statement
-    // TODO: Implement password reset logic here
-    // You can send a password reset email to the provided email address
-    // and display a success message or error message based on the response
-    Alert.alert(
-      "Password Reset",
-      "A password reset email has been sent to your email address."
-    );
+    try {
+      console.log("Password reset logic would be implemented here.");
+      Alert.alert(
+        "Password Reset",
+        "A password reset email has been sent to your email address.",
+        [{ text: "OK", onPress: () => navigation.navigate("Login") }]
+      );
+    } catch (error) {
+      setEmailError(error.message);
+    }
   };
 
   return (
@@ -56,26 +51,25 @@ const ForgotPassword = ({ navigation }) => {
           style={styles.logoImage}
         />
       </View>
-      <View style={styles.container}>
-        <Text style={styles.signUpText}>Forgot Email?</Text>
+      <View style={[styles.container, { width: width * 0.8 }]}>
+        <Text style={styles.signUpText}>Forgot Password?</Text>
         <Form>
           <TextValidator
-            styles={styles.input}
+            style={styles.inputField}
             name="email"
             label="email"
             validators={["required", "isEmail"]}
-            errorMessages={["This field is required", "Email invalid"]}
-            placeholder="Your email"
-            type="text"
+            errorMessages={["This field is required"]}
+            placeholder="Enter your email here"
             keyboardType="email-address"
             value={email}
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={setEmail}
             autoCapitalize="none"
             autoCorrect={false}
           />
-          {/* {emailError !== "" && (
+          {emailError !== "" && (
             <Text style={styles.errorText}>{emailError}</Text>
-          )} */}
+          )}
         </Form>
         <TouchableOpacity
           style={styles.loginButton}
@@ -87,74 +81,73 @@ const ForgotPassword = ({ navigation }) => {
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
-  backgroundImage: {
-    width: "100%",
-    flex: 1,
-  },
   scrollViewContainer: {
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
     paddingBottom: 10,
   },
   container: {
     alignItems: "center",
-    marginTop: "20%",
+    marginHorizontal: "10%",
   },
   signUpText: {
     fontSize: 22,
-    fontWeight: "bold",
-    fontFamily: "JosefinSans-Regular",
-    marginTop: 10,
+    marginVertical: 10,
   },
-  input: {
-    width: "10%",
+  inputField: {
+    width: "100%",
     height: 50,
-    alignSelf: "center",
-    fontFamily: "JosefinSans-Medium",
-    fontSize: 17,
-    borderWidth: 0.6,
-    borderRadius: 10,
-    paddingLeft: 10,
-    borderWidth: 1.5,
-    marginTop: "5%",
-    backgroundColor: "#ffff",
+    borderRadius: 5,
+    fontSize: 16,
+    padding: 10,
+    marginBottom: 10,
+    color: "#000",
   },
   loginButton: {
-    width: "55%",
+    width: "100%",
     height: 50,
-    backgroundColor: "#C2ADFF",
+    backgroundColor: "#007000",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
-    borderWidth: 1.5,
-    alignSelf: "center",
+    marginTop: 20,
   },
   loginButtonText: {
     fontSize: 18,
-    fontFamily: "JosefinSans-Bold",
+    color: "white",
   },
   errorText: {
     color: "red",
-    fontSize: 15,
-    marginTop: 5,
-    paddingLeft: 10,
-    fontFamily: "JosefinSans-Regular",
+    fontSize: 14,
+    marginBottom: 5,
     alignSelf: "flex-start",
   },
   logoContainer: {
-    width: "95%",
-    // height: 190,
-    paddingTop: 40,
-    // backgroundColor: 'rgb(164, 164, 164,5)',
     alignSelf: "center",
-    borderRadius: 10,
-    // borderWidth: 1.5,
+    marginTop: 20,
+    marginBottom: 20,
   },
   logoImage: {
+    width: width * 0.9,
+    height: height * 0.2,
+  },
+  // backButton: {
+  //   marginLeft: 15,
+  //   position: "absolute",
+  //   // top: 10,
+  //   bottom: 100,
+  // },
+  headerContainer: {
     width: "100%",
-    alignSelf: "center",
-    height: 100,
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingTop: 10,
   },
 });
+
 export default ForgotPassword;

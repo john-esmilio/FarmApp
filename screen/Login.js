@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: "95%",
     height: 50,
-    backgroundColor: "#C2ADFF",
+    backgroundColor: "#007000",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -180,19 +180,19 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     fontSize: 18,
+    color: "white",
     fontFamily: "JosefinSans-Bold",
   },
   signUpText: {
     fontFamily: "JosefinSans-MediumItalic",
-    fontSize: 16,
-    color: "black",
+    fontSize: 14,
     width: "90%",
     alignSelf: "center",
     marginTop: "3%",
   },
   signUpLink: {
     fontFamily: "JosefinSans-BoldItalic",
-    color: "purple",
+    color: "#007000",
     fontSize: 20,
   },
   errorText: {

@@ -5,6 +5,8 @@ import {
   Text,
   TextInput,
   View,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { MaterialIcons } from "react-native-vector-icons";
@@ -155,132 +157,44 @@ const AddPaddock = ({ navigation, route }) => {
   }, []); // Run this effect only once when the component mounts
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity style={styles.backButton} onPress={goBack}>
-            <MaterialIcons name="arrow-back" size={35} />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>Create Paddock</Text>
-        </View>
-
-        <View
-          style={{ width: "97%", height: 280, alignSelf: "center", top: 15 }}
-        >
-          {randomImage && (
-            <Image
-              source={randomImage}
-              resizeMode="stretch"
-              style={{ width: "100%", height: 250, borderRadius: 10 }}
-            />
-          )}
-        </View>
-
-        <View
-          style={{
-            width: "97%",
-            alignSelf: "center",
-            top: 8,
-          }}
-        >
-          <TextInput
-            placeholder="Enter Paddock Name"
-            value={paddockName}
-            onChangeText={(text) => setPaddockName(text)}
-            onBlur={validatePaddockName}
-            style={{
-              width: "100%",
-              height: 50,
-              fontFamily: "JosefinSans-Medium",
-              fontSize: 17,
-              borderWidth: 0.6,
-              borderRadius: 10,
-              paddingLeft: 10,
-              backgroundColor: "#ffff",
-              marginBottom: 10,
-            }}
-          />
-          {paddockNameError !== "" && (
-            <Text style={styles.errorText}>{paddockNameError}</Text>
-          )}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+    >
+      <ScrollView style={styles.container}>
+        <ScrollView>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity style={styles.backButton} onPress={goBack}>
+              <MaterialIcons name="arrow-back" size={35} />
+            </TouchableOpacity>
+            <Text style={styles.headerText}>Create Paddock</Text>
+          </View>
 
           <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
+            style={{ width: "97%", height: 280, alignSelf: "center", top: 15 }}
           >
-            <View style={{ width: "49%" }}>
-              <TextInput
-                placeholder="Paddock Number"
-                value={paddockNumber}
-                onChangeText={(text) => setPaddockNumber(text)}
-                onBlur={validatePaddockNumber}
-                style={{
-                  width: "98%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
+            {randomImage && (
+              <Image
+                source={randomImage}
+                resizeMode="stretch"
+                style={{ width: "100%", height: 250, borderRadius: 10 }}
               />
-              {paddockNumberError !== "" && (
-                <Text style={styles.errorText}>{paddockNumberError}</Text>
-              )}
-            </View>
-
-            <View style={{ width: "49%" }}>
-              <TextInput
-                placeholder="Size (Acres)"
-                value={sizeAcres}
-                onChangeText={(text) => setSizeAcres(text)}
-                onBlur={validateSizeAcres}
-                style={{
-                  width: "100%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
-              />
-              {sizeAcresError !== "" && (
-                <Text style={styles.errorText}>{sizeAcresError}</Text>
-              )}
-            </View>
-          </View>
-          <View>
-            <TextInput
-              placeholder="Land Owner"
-              value={landOwner}
-              onChangeText={(text) => setLandOwner(text)}
-              onBlur={validateLandOwner}
-              style={{
-                width: "100%",
-                height: 50,
-                fontFamily: "JosefinSans-Medium",
-                fontSize: 17,
-                borderWidth: 0.6,
-                borderRadius: 10,
-                paddingLeft: 10,
-                backgroundColor: "#ffff",
-                marginTop: 10,
-              }}
-            />
-            {landOwnerError !== "" && (
-              <Text style={styles.errorText}>{landOwnerError}</Text>
             )}
           </View>
-          <View>
+
+          <View
+            style={{
+              width: "97%",
+              alignSelf: "center",
+              top: 8,
+            }}
+          >
             <TextInput
-              placeholder="Crop Type"
-              value={cropType}
-              onChangeText={(text) => setCropType(text)}
+              placeholder="Enter Paddock Name"
+              value={paddockName}
+              onChangeText={(text) => setPaddockName(text)}
+              onBlur={validatePaddockName}
               style={{
                 width: "100%",
                 height: 50,
@@ -290,125 +204,219 @@ const AddPaddock = ({ navigation, route }) => {
                 borderRadius: 10,
                 paddingLeft: 10,
                 backgroundColor: "#ffff",
-                marginTop: 10,
+                marginBottom: 10,
               }}
             />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 10,
-            }}
-          >
-            <View style={{ width: "48%" }}>
-              <TextInput
-                placeholder="Cost Type"
-                value={costType}
-                onChangeText={(text) => setCostType(text)}
-                onBlur={validateCostType}
-                style={{
-                  width: "100%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
-              />
-              {costTypeError !== "" && (
-                <Text style={styles.errorText}>{costTypeError}</Text>
-              )}
-            </View>
+            {paddockNameError !== "" && (
+              <Text style={styles.errorText}>{paddockNameError}</Text>
+            )}
 
-            <View style={{ width: "48%" }}>
-              <TextInput
-                placeholder="Unit Cost"
-                value={unitCost}
-                onChangeText={(text) => setUnitCost(text)}
-                onBlur={validateUnitCost}
-                style={{
-                  width: "100%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
-              />
-              {unitCostError !== "" && (
-                <Text style={styles.errorText}>{unitCostError}</Text>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 10,
-            }}
-          >
-            <View style={{ width: "48%" }}>
-              <TextInput
-                placeholder="Year Seeded"
-                value={yearSeeded}
-                onChangeText={(text) => setYearSeeded(text)}
-                style={{
-                  width: "100%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
-              />
-            </View>
-
-            <View style={{ width: "48%" }}>
-              <TextInput
-                placeholder="Year Renovated"
-                value={yearRenovated}
-                onChangeText={(text) => setYearRenovated(text)}
-                style={{
-                  width: "100%",
-                  height: 50,
-                  fontFamily: "JosefinSans-Medium",
-                  fontSize: 17,
-                  borderWidth: 0.6,
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  backgroundColor: "#ffff",
-                }}
-              />
-            </View>
-          </View>
-          <View>
-            <TouchableOpacity
+            <View
               style={{
-                height: 50,
-                backgroundColor: "#007000",
-                borderRadius: 10,
-                marginTop: 20,
-                marginBottom: 50,
-                justifyContent: "center",
-                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "space-between",
               }}
-              onPress={handleSave}
             >
-              <Text style={{ fontSize: 18, fontFamily: "JosefinSans-Bold" }}>
-                Create Paddock
-              </Text>
-            </TouchableOpacity>
+              <View style={{ width: "49%" }}>
+                <TextInput
+                  placeholder="Paddock #"
+                  value={paddockNumber}
+                  onChangeText={(text) => setPaddockNumber(text)}
+                  onBlur={validatePaddockNumber}
+                  style={{
+                    width: "98%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                {paddockNumberError !== "" && (
+                  <Text style={styles.errorText}>{paddockNumberError}</Text>
+                )}
+              </View>
+
+              <View style={{ width: "49%" }}>
+                <TextInput
+                  placeholder="Size (Acres)"
+                  value={sizeAcres}
+                  onChangeText={(text) => setSizeAcres(text)}
+                  onBlur={validateSizeAcres}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                {sizeAcresError !== "" && (
+                  <Text style={styles.errorText}>{sizeAcresError}</Text>
+                )}
+              </View>
+            </View>
+            <View>
+              <TextInput
+                placeholder="Land Owner"
+                value={landOwner}
+                onChangeText={(text) => setLandOwner(text)}
+                onBlur={validateLandOwner}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  fontFamily: "JosefinSans-Medium",
+                  fontSize: 17,
+                  borderWidth: 0.6,
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  backgroundColor: "#ffff",
+                  marginTop: 10,
+                }}
+              />
+              {landOwnerError !== "" && (
+                <Text style={styles.errorText}>{landOwnerError}</Text>
+              )}
+            </View>
+            <View>
+              <TextInput
+                placeholder="Crop Type"
+                value={cropType}
+                onChangeText={(text) => setCropType(text)}
+                style={{
+                  width: "100%",
+                  height: 50,
+                  fontFamily: "JosefinSans-Medium",
+                  fontSize: 17,
+                  borderWidth: 0.6,
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                  backgroundColor: "#ffff",
+                  marginTop: 10,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 10,
+              }}
+            >
+              <View style={{ width: "48%" }}>
+                <TextInput
+                  placeholder="Cost Type"
+                  value={costType}
+                  onChangeText={(text) => setCostType(text)}
+                  onBlur={validateCostType}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                {costTypeError !== "" && (
+                  <Text style={styles.errorText}>{costTypeError}</Text>
+                )}
+              </View>
+
+              <View style={{ width: "48%" }}>
+                <TextInput
+                  placeholder="Unit Cost"
+                  value={unitCost}
+                  onChangeText={(text) => setUnitCost(text)}
+                  onBlur={validateUnitCost}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                {unitCostError !== "" && (
+                  <Text style={styles.errorText}>{unitCostError}</Text>
+                )}
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 10,
+              }}
+            >
+              <View style={{ width: "48%" }}>
+                <TextInput
+                  placeholder="Year Seeded"
+                  value={yearSeeded}
+                  onChangeText={(text) => setYearSeeded(text)}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+              </View>
+
+              <View style={{ width: "48%" }}>
+                <TextInput
+                  placeholder="Year Renovated"
+                  value={yearRenovated}
+                  onChangeText={(text) => setYearRenovated(text)}
+                  style={{
+                    width: "100%",
+                    height: 50,
+                    fontFamily: "JosefinSans-Medium",
+                    fontSize: 17,
+                    borderWidth: 0.6,
+                    borderRadius: 10,
+                    paddingLeft: 10,
+                    backgroundColor: "#ffff",
+                  }}
+                />
+              </View>
+            </View>
+            <View>
+              <TouchableOpacity
+                style={{
+                  height: 50,
+                  backgroundColor: "#007000",
+                  borderRadius: 10,
+                  marginTop: 20,
+                  marginBottom: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={handleSave}
+              >
+                <Text style={{ fontSize: 18, fontFamily: "JosefinSans-Bold" }}>
+                  Create Paddock
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

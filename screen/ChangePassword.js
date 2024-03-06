@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,7 +11,7 @@ import {
 import { Alert } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
 
-const SignUp = ({ navigation }) => {
+const ChangePassword = ({ navigation, route }) => {
   const goBack = () => {
     navigation.goBack();
   };
@@ -30,23 +29,11 @@ const SignUp = ({ navigation }) => {
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleSignUp = () => {
+  const handleChangePassword = () => {
     // Reset error messages
-    setFirstNameError("");
-    setLastNameError("");
     setEmailError("");
     setPasswordError("");
     setConfirmPasswordError("");
-
-    // Validate First Name
-    if (!firstName || !firstName.trim()) {
-      setFirstNameError("First Name cannot be empty");
-    }
-
-    // Validate Last Name
-    if (!lastName || !lastName.trim()) {
-      setLastNameError("Last Name cannot be empty");
-    }
 
     // Validate email
     if (!email || !email.trim()) {
@@ -66,30 +53,22 @@ const SignUp = ({ navigation }) => {
     }
 
     // If any field has an error, return without attempting signup
-    if (
-      firstNameError ||
-      lastNameError ||
-      emailError ||
-      passwordError ||
-      confirmPasswordError
-    ) {
+    if (emailError || passwordError || confirmPasswordError) {
       return;
     }
 
-    // Add signup logic here
-    // Moves to login screen after successful signup
-    navigation.navigate("Login");
-    Alert.alert("User Registered Successfully", "Please Login to continue", [
-      { text: "OK", onPress: () => navigation.navigate("Login") },
+    // Add password change logic here
+    Alert.alert("Password Changed", "Navigating back to account", [
+      { text: "OK", onPress: () => navigation.goBack() },
     ]);
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <MaterialIcons name="arrow-back" size={35} />
-      </TouchableOpacity>
       <View style={styles.logoContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={goBack}>
+          <MaterialIcons name="arrow-back" size={35} />
+        </TouchableOpacity>
         <Image
           source={require("../assets/img/logos.png")}
           resizeMode="contain"
@@ -97,36 +76,7 @@ const SignUp = ({ navigation }) => {
         />
       </View>
       <View style={styles.container}>
-        <Text style={styles.signUpText}>Sign Up</Text>
-        <TextInput
-          placeholder="First name"
-          style={styles.input}
-          value={firstName}
-          onChangeText={(text) => setFirstName(text)}
-          onBlur={() =>
-            setFirstNameError(
-              !firstName.trim() ? "First Name cannot be empty" : ""
-            )
-          }
-        />
-        {firstNameError !== "" && (
-          <Text style={styles.errorText}>{firstNameError}</Text>
-        )}
-
-        <TextInput
-          placeholder="Last name"
-          style={styles.input}
-          value={lastName}
-          onChangeText={(text) => setLastName(text)}
-          onBlur={() =>
-            setLastNameError(
-              !lastName.trim() ? "Last Name cannot be empty" : ""
-            )
-          }
-        />
-        {lastNameError !== "" && (
-          <Text style={styles.errorText}>{lastNameError}</Text>
-        )}
+        <Text style={styles.signUpText}>Change Password</Text>
 
         <TextInput
           placeholder="Email"
@@ -193,7 +143,10 @@ const SignUp = ({ navigation }) => {
           <Text style={styles.errorText}>{confirmPasswordError}</Text>
         )}
 
-        <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={handleChangePassword}
+        >
           <Text style={styles.loginButtonText}>Register</Text>
         </TouchableOpacity>
       </View>
@@ -201,7 +154,7 @@ const SignUp = ({ navigation }) => {
   );
 };
 
-export default SignUp;
+export default ChangePassword;
 
 const styles = StyleSheet.create({
   backgroundImage: {
@@ -225,7 +178,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "JosefinSans-Regular",
     textAlign: "center",
-    // marginTop: 2,
   },
   input: {
     width: "95%",
@@ -294,7 +246,6 @@ const styles = StyleSheet.create({
     top: 15,
   },
   backButton: {
-    marginLeft: 15,
-    top: 30,
+    marginLeft: 10,
   },
 });

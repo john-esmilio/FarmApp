@@ -175,12 +175,12 @@ const ViewPaddock = ({ navigation, route }) => {
               </Text>
             </View>
           </View>
-          <View style={styles.horizontalContainer}>
+          {/* <View style={styles.horizontalContainer}>
             <View style={styles.itemContainer}>
               <Text style={styles.infoTitle}>Cattle Class</Text>
               <Text style={styles.infoContent}>{cattleClass}</Text>
             </View>
-          </View>
+          </View> */}
         </View>
         <Modal
           isVisible={isModalVisible}
@@ -275,16 +275,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginLeft: 15,
   },
-  // alertContainer: {
-  //   backgroundColor: "#FFFF00", // Yellow background for alert
-  //   padding: 10,
-  //   marginTop: 10,
-  // },
-  // alertText: {
-  //   fontFamily: "JosefinSans-Regular",
-  //   fontSize: 16,
-  //   color: "#000000", // Black text for alert
-  // },
   modalContainer: {
     width: "100%",
     height: "50%", // Set height to 50% of the screen
